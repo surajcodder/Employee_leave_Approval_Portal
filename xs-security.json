@@ -1,0 +1,8 @@
+{
+  "xsappname": "Employee_leave_approval",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+  "scopes": [],
+  "role-templates": [],
+  "attributes": []
+}

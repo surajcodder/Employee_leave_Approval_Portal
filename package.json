@@ -1,0 +1,74 @@
+{
+  "name": "Employee_leave_approval",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/hana": "^2.1.1",
+    "@openui5/sap.m": "^1.128.0",
+    "@sap-cloud-sdk/connectivity": "^3.18.0",
+    "@sap-cloud-sdk/http-client": "^2.9.0",
+    "@sap-cloud-sdk/resilience": "^3.17.0",
+    "@sap/cds": "^9.0.4",
+    "@sap/xsenv": "^5.6.1",
+    "@sap/xssec": "^4",
+    "axios": "^1.7.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^9.0.6",
+    "@sap/eslint-plugin-cds": "^3",
+    "@sap/ux-specification": "^1.120.17",
+    "eslint": "^9",
+    "rimraf": "^5.0.5",
+    "mbt": "^1.2.29"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy Employee_leave_approval --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+  },
+  "cds": {
+    "env": {
+      "fiori": {
+        "bypass_draft": true
+      }
+    },
+    "requires": {
+      "db": {
+        "kind": "hana",
+        "multiTenant": false,
+        "pool": {
+          "max": 1400,
+          "min": 100
+        }
+      },
+      "auth": "dummy",
+      "spa_api": {
+        "kind": "odata-v2",
+        "credentials": {
+          "destination": "sap_process_automation_service_user_access",
+          "url": "https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com",
+          "authentication": "OAuth2ClientCredentials"
+        },
+        "destinationOptions": {
+          "selectionStrategy": "alwaysProvider",
+          "jwt": null
+        }
+      },
+      "uaa": {
+        "kind": "xsuaa"
+      },
+      "[production]": {
+        "auth": "xsuaa"
+      },
+      "destinations": true,
+      "html5-runtime": true
+    }
+  }
+}

@@ -1,0 +1,103 @@
+<mvc:View
+    controllerName="project1.controller.UpdateLeaveReq"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.uxap"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:m="sap.m">
+
+    <ObjectPageLayout
+        id="objectPageLayout"
+        showTitleInHeaderContent="true"
+        headerContentPinnable="false"
+        alwaysShowContentHeader="true">
+
+        <!-- Header Title -->
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle">
+             <snappedHeading>
+            <m:Title id="_IDGenTitle1" text="Update Leave Request" level="H2"/>
+        </snappedHeading>
+        <expandedHeading>
+            <m:Title id="_IDGenTitle2" text="Update Leave Request" level="H2"/>
+        </expandedHeading>
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+
+        <!-- Sections -->
+        <sections>
+            <ObjectPageSection id="_IDGenObjectPageSection" title="Leave Details">
+                <ObjectPageSubSection id="_IDGenObjectPageSubSection">
+                    <blocks>
+                        <form:SimpleForm
+                            id="leaveForm"
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            labelSpanM="3"
+                            columnsM="2">
+
+                            <form:content>
+
+                                <m:Label id="_IDGenLabel" text="Employee Name"/>
+                                <m:Input id="_IDGenInput" value="{employeeName}"/>
+
+                                <m:Label id="_IDGenLabel1" text="Leave Type"/>
+                                <m:Select id="_IDGenSelect" selectedKey="{leaveType_ID}">
+                                    <m:items>
+                                        <core:Item id="_IDGenItem" key="{leaveType/ID}" text="{leaveType/name}" />
+                                    </m:items>
+                                </m:Select>
+
+                                <m:Label id="_IDGenLabel2" text="Start Date"/>
+                                <m:DatePicker id="_IDGenDatePicker"
+                                    value="{startDate}"
+                                    displayFormat="yyyy-MM-dd"
+                                    valueFormat="yyyy-MM-dd"/>
+
+                                <m:Label id="_IDGenLabel3" text="End Date"/>
+                                <m:DatePicker id="_IDGenDatePicker1"
+                                    value="{endDate}"
+                                    displayFormat="yyyy-MM-dd"
+                                    valueFormat="yyyy-MM-dd"/>
+
+                                <m:Label id="_IDGenLabel4" text="Reason"/>
+                                <m:TextArea id="_IDGenTextArea" value="{reason}" rows="3"/>
+
+                                <m:Label id="_IDGenLabel5" text="Status"/>
+                                <m:Input id="_IDGenInput1" value="{status}" editable="false"/>
+
+                            </form:content>
+                        </form:SimpleForm>
+                    </blocks>
+                </ObjectPageSubSection>
+            </ObjectPageSection>
+
+            <!-- File Attachments -->
+            <ObjectPageSection id="_IDGenObjectPageSection1" title="Attachments">
+                <ObjectPageSubSection id="_IDGenObjectPageSubSection1">
+                    <blocks>
+                        <!-- <m:UploadSet
+                            id="uploadSet"
+                            uploadUrl="/upload"
+                            instantUpload="false">
+                            <m:items>
+                                <m:UploadSetItem id="_IDGenUploadSetItem" fileName="{files/fileName}" />
+                            </m:items>
+                        </m:UploadSet> -->
+                    </blocks>
+                </ObjectPageSubSection>
+            </ObjectPageSection>
+        </sections>
+
+        <!-- Footer -->
+        <footer>
+            <m:Bar id="_IDGenBar">
+                <m:contentRight>
+                    <m:Button id="_IDGenButton4" text="Save" type="Emphasized" press="onSave"/>
+                    <m:Button id="_IDGenButton5" text="Cancel" press="onCancel"/>
+                </m:contentRight>
+            </m:Bar>
+        </footer>
+
+    </ObjectPageLayout>
+</mvc:View>

@@ -1,0 +1,146 @@
+_schema-version: 3.3.0
+ID: Employee_leave_approval
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: Employee_leave_approval-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: Employee_leave_approval-destination
+  - name: Employee_leave_approval-db
+  - name: Employee_leave_approval-auth
+  
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    instances: 1
+  build-parameters:
+    builder: npm-ci
+- name: Employee_leave_approval-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: Employee_leave_approval-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: Employee_leave_approval-app-deployer
+  type: com.sap.application.content
+  path: gen
+  requires:
+  - name: Employee_leave_approval-html5-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: app/
+    requires:
+    - artifacts:
+      - project1.zip
+      name: Employee_leave_approvalproject1
+      target-path: app/
+- name: Employee_leave_approvalproject1
+  type: html5
+  path: app/project1
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: Employee_leave_approval-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: Employee_leave_approval-destination
+    parameters:
+      content-target: true
+  - name: Employee_leave_approval-html5-repo-host
+    parameters:
+      service-key:
+        name: Employee_leave_approval-html5-repo-host-key
+  - name: Employee_leave_approval-auth
+    parameters:
+      service-key:
+        name: Employee_leave_approval-auth-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: Employee_leave_approval_html_repo_host
+          ServiceInstanceName: Employee_leave_approval-html5-service
+          ServiceKeyName: Employee_leave_approval-html5-repo-host-key
+          sap.cloud.service: Employee_leave_approval
+        - Authentication: OAuth2UserTokenExchange
+          Name: Employee_leave_approval_uaa
+          ServiceInstanceName: Employee_leave_approval-xsuaa-service
+          ServiceKeyName: Employee_leave_approval-auth-key
+          sap.cloud.service: Employee_leave_approval
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+resources:
+- name: Employee_leave_approval-destination
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: Employee_leave_approval-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+    service: destination
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: Employee_leave_approval-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: Employee_leave_approval-html5-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: Employee_leave_approval-html5-service
+    service-plan: app-host
+- name: Employee_leave_approval-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: Employee_leave_approval-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: Employee_leave_approval-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production

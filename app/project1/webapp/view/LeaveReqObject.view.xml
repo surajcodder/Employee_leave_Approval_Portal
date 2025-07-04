@@ -1,0 +1,446 @@
+<mvc:View
+    controllerName="project1.controller.LeaveReqObject"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.uxap"
+    xmlns:m="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:plugin="sap.m.plugins"
+    xmlns:upload="sap.m.upload"
+>
+    <ObjectPageLayout
+        id="objectPageLayout1"
+        showTitleInHeaderContent="true"
+        alwaysShowContentHeader="true"
+        headerContentPinnable="false"
+        showFooter="true"
+    >
+        <!-- Header Title -->
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle
+                id="_IDGenObjectPageDynamicHeaderTitle1"
+            >
+                <snappedHeading>
+                    <m:Title
+                        id="_IDGenTitle"
+                        text="Create Leave Request"
+                        level="H2"
+                    />
+                </snappedHeading>
+                <expandedHeading>
+                    <m:Title
+                        id="_IDGenTitle3"
+                        text="Create Leave Request"
+                        level="H2"
+                    />
+                </expandedHeading>
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+
+        <!-- Sections -->
+        <sections>
+            <!-- Leave Request Section -->
+            <ObjectPageSection
+                id="_IDGenObjectPageSection2"
+                title="Leave Request Details"
+            >
+                <ObjectPageSubSection id="_IDGenObjectPageSubSection2">
+                    <blocks>
+                        <form:SimpleForm
+                            id="_IDGenSimpleForm"
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            labelSpanM="3"
+                            columnsM="2"
+                        >
+                            <form:content>
+                                <m:Label
+                                    id="_IDGenLabel6"
+                                    text="Employee Name"
+                                />
+                                <m:Input
+                                    id="inputEmployeeName"
+                                    value="{userModel>/employeeName}"
+                                    editable="false"
+                                />
+
+                                <m:Label
+                                    id="_IDGenLabel7"
+                                    text="Leave Type"
+                                />
+                                <m:Select
+                                    id="inputLeaveType"
+                                    forceSelection="true"
+                                >
+                                    <core:Item
+                                        id="_IDGenItem1"
+                                        key="Sick Leave"
+                                        text="Sick Leave"
+                                    />
+                                    <core:Item
+                                        id="_IDGenItem2"
+                                        key="Casual Leave"
+                                        text="Casual Leave"
+                                    />
+                                    <core:Item
+                                        id="_IDGenItem3"
+                                        key="Paid Leave"
+                                        text="Paid Leave"
+                                    />
+                                </m:Select>
+
+                                <m:Label
+                                    id="_IDGenLabel8"
+                                    text="Start Date"
+                                />
+                                <m:DatePicker
+                                    id="inputStartDate"
+                                    displayFormat="yyyy-MM-dd"
+                                    valueFormat="yyyy-MM-dd"
+                                    change=".onStartDateChange"
+                                />
+
+                                <m:Label
+                                    id="_IDGenLabel9"
+                                    text="End Date"
+                                />
+                                <m:DatePicker
+                                    id="inputEndDate"
+                                    displayFormat="yyyy-MM-dd"
+                                    valueFormat="yyyy-MM-dd"
+                                />
+
+                                <m:Label
+                                    id="_IDGenLabel10"
+                                    text="Reason"
+                                />
+                                <m:TextArea
+                                    id="inputReason"
+                                    rows="3"
+                                />
+
+                                <m:Label
+                                    id="_IDGenLabel11"
+                                    text="Status"
+                                    visible="false"
+                                />
+                                <m:Input
+                                    id="inputStatus"
+                                    value="{= ${context>/status} || 'Pending' }"
+                                    editable="false"
+                                    visible="false"
+                                />
+                            </form:content>
+                        </form:SimpleForm>
+                    </blocks>
+                </ObjectPageSubSection>
+            </ObjectPageSection>
+
+            <!-- Attachments Section -->
+            <ObjectPageSection
+                id="_IDGenObjectPageSection3"
+                title="Attachments"
+            >
+                <ObjectPageSubSection id="_IDGenObjectPageSubSection3">
+                    <blocks>
+                        <m:VBox id="_IDGenVBox">
+                            <m:Table
+                                id="table-uploadSet"
+                                sticky="ColumnHeaders,HeaderToolbar"
+                                width="auto"
+                                mode="MultiSelect"
+                                fixedLayout="false"
+                                inset="true"
+                                autoPopinMode="true"
+                                hiddenInPopin="None"
+                                items="{path: 'documents>/items', templateShareable: false}"
+                                selectionChange="onSelectionChange"
+                            >
+                                <!-- Header Toolbar -->
+                                <m:headerToolbar>
+                                    <m:OverflowToolbar
+                                        id="_IDGenOverflowToolbar"
+                                    >
+                                        <m:Title
+                                            id="_IDGenTitle4"
+                                            text="Documents ({= ${documents>/items}.length})"
+                                            level="H2"
+                                        />
+                                        <m:ToolbarSpacer
+                                            id="_IDGenToolbarSpacer"
+                                        />
+
+                                        <m:SearchField
+                                            id="_IDGenSearchField"
+                                            width="20%"
+                                            liveChange="onSearch"
+                                        >
+                                            <m:layoutData>
+                                                <m:OverflowToolbarLayoutData
+                                                    id="_IDGenOverflowToolbarLayoutData"
+                                                    priority="NeverOverflow"
+                                                />
+                                            </m:layoutData>
+                                        </m:SearchField>
+                                        <m:ToolbarSeparator
+                                            id="_IDGenToolbarSeparator"
+                                        />
+
+                                        <upload:ActionsPlaceholder
+                                            id="uploadButton"
+                                            placeholderFor="UploadButtonPlaceholder"
+                                        />
+
+                                        <m:Button
+                                            id="downloadSelectedButton"
+                                            text="Download"
+                                            enabled="false"
+                                            press="onDownloadFiles"
+                                        />
+
+                                        <m:MenuButton
+                                            id="_IDGenMenuButton"
+                                            text="Add"
+                                        >
+                                            <m:menu>
+                                                <m:Menu id="_IDGenMenu">
+                                                    <m:MenuItem
+                                                        id="_IDGenMenuItem"
+                                                        text="URL"
+                                                        press="openAddOrEditDialog"
+                                                    />
+                                                </m:Menu>
+                                            </m:menu>
+                                            <m:layoutData>
+                                                <m:OverflowToolbarLayoutData
+                                                    id="_IDGenOverflowToolbarLayoutData1"
+                                                    priority="AlwaysOverflow"
+                                                />
+                                            </m:layoutData>
+                                        </m:MenuButton>
+
+                                        <m:Button
+                                            id="_IDGenButton6"
+                                            text="Remove"
+                                            enabled="false"
+                                            press="onRemoveButtonPress"
+                                        />
+                                        <m:Button
+                                            id="_IDGenButton7"
+                                            text="Rename"
+                                            enabled="false"
+                                            press="onRenameDocument"
+                                        />
+                                        <m:Button
+                                            id="_IDGenButton8"
+                                            text="Edit URL"
+                                            enabled="false"
+                                            press="onEditUrl"
+                                        />
+                                    </m:OverflowToolbar>
+                                </m:headerToolbar>
+
+                                <!-- Upload Plugin -->
+                                <m:dependents>
+                                    <plugin:UploadSetwithTable
+                                        id="_IDGenUploadSetwithTable"
+                                        uploadUrl="/Files"
+                                        multiple="true"
+                                        beforeUploadStarts="onBeforeUploadStarts"
+                                        itemRenamed="onDocumentRenamedSuccess"
+                                        uploadCompleted="onUploadCompleted"
+                                        onActivated="onPluginActivated"
+                                        cloudFilePickerEnabled="true"
+                                        actions="uploadButton"
+                                    >
+                                        <plugin:rowConfiguration>
+                                            <upload:UploadItemConfiguration
+                                                id="_IDGenUploadItemConfiguration"
+                                                fileNamePath="fileName"
+                                                mediaTypePath="mediaType"
+                                                urlPath="url"
+                                                previewablePath="previewable"
+                                                fileSizePath="fileSize"
+                                                isTrustedSourcePath="trustedSource"
+                                            />
+                                        </plugin:rowConfiguration>
+                                    </plugin:UploadSetwithTable>
+                                </m:dependents>
+
+                                <!-- Table Columns -->
+                                <m:columns>
+                                    <m:Column id="_IDGenColumn5">
+                                        <m:Label
+                                            id="_IDGenLabel12"
+                                            text="File Name"
+                                        />
+                                    </m:Column>
+                                    <m:Column id="_IDGenColumn6">
+                                        <m:Label
+                                            id="_IDGenLabel13"
+                                            text="ID"
+                                        />
+                                    </m:Column>
+                                    <m:Column id="_IDGenColumn7">
+                                        <m:Label
+                                            id="_IDGenLabel14"
+                                            text="Revision"
+                                        />
+                                    </m:Column>
+                                    <m:Column id="_IDGenColumn8">
+                                        <m:Label
+                                            id="_IDGenLabel15"
+                                            text="Status"
+                                        />
+                                    </m:Column>
+                                    <m:Column id="_IDGenColumn9">
+                                        <m:Label
+                                            id="_IDGenLabel16"
+                                            text="File Size"
+                                        />
+                                    </m:Column>
+                                    <m:Column id="_IDGenColumn10">
+                                        <m:Label
+                                            id="_IDGenLabel17"
+                                            text="Last Modified"
+                                        />
+                                    </m:Column>
+                                    <m:Column id="_IDGenColumn11" />
+                                </m:columns>
+
+                                <!-- Table Items -->
+                                <m:items>
+                                    <m:ColumnListItem
+                                        id="_IDGenColumnListItem1"
+                                        highlight="{= ${documents>uploadState} === 'Complete' ? 'Indication05' : null }"
+                                    >
+                                        <m:cells>
+                                            <m:HBox id="_IDGenHBox">
+                                                <m:Image
+                                                    id="_IDGenImage"
+                                                    src="{documents>imageUrl}"
+                                                    visible="{= ${documents>imageUrl} !== undefined}"
+                                                />
+                                                <core:Icon
+                                                    id="_IDGenIcon"
+                                                    src="{parts: ['documents>mediaType', 'documents>fileName'], formatter: '.getIconSrc'}"
+                                                    visible="{= !${documents>imageUrl} }"
+                                                />
+                                                <m:VBox
+                                                    id="_IDGenVBox1"
+                                                    class="sapUiTinyMargin sapUiSmallMarginBegin"
+                                                >
+                                                    <m:Link
+                                                        id="_IDGenLink"
+                                                        text="{documents>fileName}"
+                                                        press="openPreview"
+                                                    />
+                                                    <m:Text
+                                                        id="_IDGenText9"
+                                                        text="{documents>documentType}"
+                                                    />
+                                                </m:VBox>
+                                            </m:HBox>
+                                            <m:Text
+                                                id="_IDGenText10"
+                                                text="{documents>id}"
+                                            />
+                                            <m:Link
+                                                id="_IDGenLink1"
+                                                text="{documents>revision}"
+                                            />
+                                            <m:Text
+                                                id="_IDGenText11"
+                                                text="{documents>status}"
+                                            />
+                                            <m:Text
+                                                id="_IDGenText12"
+                                                text="{parts: ['documents>fileSize'], formatter: '.getFileSizeWithUnits'}"
+                                            />
+                                            <m:VBox id="_IDGenVBox2">
+                                                <m:Text
+                                                    id="_IDGenText13"
+                                                    text="{documents>lastModifiedBy}"
+                                                />
+                                                <m:Text
+                                                    id="_IDGenText14"
+                                                    text="{documents>lastmodified}"
+                                                />
+                                            </m:VBox>
+                                            <m:Button
+                                                id="_IDGenButton9"
+                                                type="Transparent"
+                                                icon="sap-icon://decline"
+                                                press="onRemoveHandler"
+                                            />
+                                        </m:cells>
+                                    </m:ColumnListItem>
+                                </m:items>
+                            </m:Table>
+                        </m:VBox>
+                    </blocks>
+                </ObjectPageSubSection>
+            </ObjectPageSection>
+            <ObjectPageSection
+                id="commentSection"
+                title="Comments"
+                titleUppercase="false"
+            >
+                <subSections>
+                    <ObjectPageSubSection
+                        id="_IDGenObjectPageSubSection5"
+                        titleUppercase="false"
+                    >
+                        <m:VBox
+                            id="_IDGenVBox7"
+                            width="100%"
+                        >
+                            <m:Toolbar id="_IDGenToolbar">
+                                <m:Title
+                                    text="Enter Comments"
+                                    id="_IDGenEnterCommentsTitle"
+                                />
+                                <m:ToolbarSpacer id="_IDGenToolbarSpacer1" />
+
+                                <m:Button
+                                    id="_IDGenButton12"
+                                    text="Browse History"
+                                    press="onBrowseHistoryPress"
+                                />
+                            </m:Toolbar>
+                            <m:TextArea
+                                id="_IDGenTextArea1"
+                                showExceededText="true"
+                                maxLength="1000"
+                                width="100%"
+                                height="120px"
+                                 value="{commentModel>/comment}"
+                                change="_PostComment"
+                            />
+                        </m:VBox>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+
+        <!-- Footer -->
+        <footer>
+            <m:Bar id="_IDGenBar1">
+                <m:contentRight>
+                    <m:Button
+                        id="_IDGenButton10"
+                        text="Create"
+                        type="Emphasized"
+                        press="onCreate"
+                    />
+                    <m:Button
+                        id="_IDGenButton11"
+                        text="Cancel"
+                        type="Reject"
+                        press="onCancel"
+                    />
+                </m:contentRight>
+            </m:Bar>
+        </footer>
+    </ObjectPageLayout>
+</mvc:View>

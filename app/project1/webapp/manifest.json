@@ -1,0 +1,182 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "project1",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.18.0",
+      "toolsId": "f4d37e66-195f-4fa2-83fb-1872e8ea9a5c"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/my/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "employee_leave_portal-display": {
+          "semanticObject": "employee_leave_portal",
+          "action": "display",
+          "title": "{{employee_leave_portal-display.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.136.1",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "project1.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "project1.view",
+        "async": true,
+        "viewPath": "project1.view"
+      },
+      "routes": [
+        {
+          "name": "RouteLogin",
+          "pattern": ":?query:",
+          "target": [
+            "TargetLogin"
+          ]
+        },
+        {
+          "name": "View1",
+          "pattern": "home",
+          "target": [
+            "TargetView1"
+          ]
+        },
+        {
+          "name": "UpdateLeaveReq",
+          "pattern": "update-LeaveReq",
+          "target": [
+            "TargetUpdateLeaveReq"
+          ]
+        },
+        {
+          "name": "LeaveReqObject",
+          "pattern": "Create-LeaveReqObject",
+          "target": [
+            "TargetLeaveReqObject"
+          ]
+        },
+        {
+          "name": "LeaveReqDetailed",
+          "pattern": "LeaveReqDetailed/{ID}",
+          "target": [
+            "TargetLeaveReqDetailed"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetLogin": {
+          "viewName": "Login",
+          "viewId": "login"
+        },
+        "TargetView1": {
+          "viewName": "View1",
+          "viewType": "XML",
+          "viewId": "home"
+        },
+        "TargetUpdateLeaveReq": {
+          "viewId": "UpdateLeaveReq",
+          "viewName": "UpdateLeaveReq",
+          "viewType": "XML"
+        },
+        "TargetLeaveReqObject": {
+          "viewId": "LeaveReqObject",
+          "viewName": "LeaveReqObject",
+          "viewType": "XML"
+        },
+        "TargetLeaveReqDetailed": {
+          "viewId": "LeaveReqDetailed",
+          "viewName": "LeaveReqDetailed",
+          "viewType": "XML"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "project1.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "Employee_leave_approval"
+  }
+}
