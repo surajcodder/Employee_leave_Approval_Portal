@@ -155,7 +155,7 @@ module.exports = cds.service.impl(async function () {
     debugger
     // ✅ Trigger Workflow after insertion
     const workflowContent = JSON.stringify({
-      "definitionId": "us10.ede812adtrial.leaveapproval.process1",
+      "definitionId": "us10.ede812adtrial.automateleaverequestportal.process1",
       "context": {
         "leavetype": leaveData.leaveType,
         "startdate": leaveData.startDate,
@@ -204,8 +204,8 @@ module.exports = cds.service.impl(async function () {
   // 🔐 Token generator
   async function generateToken() {
     const tokenUrl = 'https://ede812adtrial.authentication.us10.hana.ondemand.com/oauth/token';
-    const clientId = 'sb-483f0a4c-51a3-4436-b113-323a0c2274fa!b465767|xsuaa!b49390';
-    const clientSecret = '09d97686-d256-47b8-8505-0f73a02d7d28$eH219GON_miuCUwxGm0Pl4eiMEN6Obp5Brd-jIVVMlo=';
+    const clientId = 'sb-38022930-b9f3-413d-b9d1-62d60cc1c05a!b465767|xsuaa!b49390';
+    const clientSecret = 'c0fcee51-f61e-4b38-bc1e-1cfbcaf97823$R8i5XjQlz_rKA9RbuMqFnDqsgVynOEg38AP6A25ovZI=';
 
     try {
       const response = await axios.post(tokenUrl, null, {

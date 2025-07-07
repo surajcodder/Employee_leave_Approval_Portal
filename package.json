@@ -48,11 +48,11 @@
           "min": 100
         }
       },
-      "auth": "dummy",
+      "auth": "mocked",
       "spa_api": {
         "kind": "odata-v2",
         "credentials": {
-          "destination": "sap_process_automation_service_user_access",
+          "destination": "sap_process_automation_service",
           "url": "https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com",
           "authentication": "OAuth2ClientCredentials"
         },
@@ -63,9 +63,6 @@
       },
       "uaa": {
         "kind": "xsuaa"
-      },
-      "[production]": {
-        "auth": "xsuaa"
       },
       "destinations": true,
       "html5-runtime": true

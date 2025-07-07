@@ -1,6 +1,7 @@
 using db from '../db/schema';
 
 service MyService {
+  
   entity Comments     as projection on db.Comments;
 
   @odata.draft.enabled  @odata.draft.bypass

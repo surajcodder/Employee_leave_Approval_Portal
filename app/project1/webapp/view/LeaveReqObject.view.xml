@@ -98,6 +98,7 @@
                                     displayFormat="yyyy-MM-dd"
                                     valueFormat="yyyy-MM-dd"
                                     change=".onStartDateChange"
+                                    required="true"
                                 />
 
                                 <m:Label
@@ -108,6 +109,7 @@
                                     id="inputEndDate"
                                     displayFormat="yyyy-MM-dd"
                                     valueFormat="yyyy-MM-dd"
+                                    required="true"
                                 />
 
                                 <m:Label
@@ -117,6 +119,7 @@
                                 <m:TextArea
                                     id="inputReason"
                                     rows="3"
+                                    required="true"
                                 />
 
                                 <m:Label
@@ -148,7 +151,7 @@
                                 id="table-uploadSet"
                                 sticky="ColumnHeaders,HeaderToolbar"
                                 width="auto"
-                                mode="MultiSelect"
+                                mode="None"
                                 fixedLayout="false"
                                 inset="true"
                                 autoPopinMode="true"
@@ -170,72 +173,9 @@
                                             id="_IDGenToolbarSpacer"
                                         />
 
-                                        <m:SearchField
-                                            id="_IDGenSearchField"
-                                            width="20%"
-                                            liveChange="onSearch"
-                                        >
-                                            <m:layoutData>
-                                                <m:OverflowToolbarLayoutData
-                                                    id="_IDGenOverflowToolbarLayoutData"
-                                                    priority="NeverOverflow"
-                                                />
-                                            </m:layoutData>
-                                        </m:SearchField>
-                                        <m:ToolbarSeparator
-                                            id="_IDGenToolbarSeparator"
-                                        />
-
                                         <upload:ActionsPlaceholder
                                             id="uploadButton"
                                             placeholderFor="UploadButtonPlaceholder"
-                                        />
-
-                                        <m:Button
-                                            id="downloadSelectedButton"
-                                            text="Download"
-                                            enabled="false"
-                                            press="onDownloadFiles"
-                                        />
-
-                                        <m:MenuButton
-                                            id="_IDGenMenuButton"
-                                            text="Add"
-                                        >
-                                            <m:menu>
-                                                <m:Menu id="_IDGenMenu">
-                                                    <m:MenuItem
-                                                        id="_IDGenMenuItem"
-                                                        text="URL"
-                                                        press="openAddOrEditDialog"
-                                                    />
-                                                </m:Menu>
-                                            </m:menu>
-                                            <m:layoutData>
-                                                <m:OverflowToolbarLayoutData
-                                                    id="_IDGenOverflowToolbarLayoutData1"
-                                                    priority="AlwaysOverflow"
-                                                />
-                                            </m:layoutData>
-                                        </m:MenuButton>
-
-                                        <m:Button
-                                            id="_IDGenButton6"
-                                            text="Remove"
-                                            enabled="false"
-                                            press="onRemoveButtonPress"
-                                        />
-                                        <m:Button
-                                            id="_IDGenButton7"
-                                            text="Rename"
-                                            enabled="false"
-                                            press="onRenameDocument"
-                                        />
-                                        <m:Button
-                                            id="_IDGenButton8"
-                                            text="Edit URL"
-                                            enabled="false"
-                                            press="onEditUrl"
                                         />
                                     </m:OverflowToolbar>
                                 </m:headerToolbar>
@@ -401,12 +341,6 @@
                                     id="_IDGenEnterCommentsTitle"
                                 />
                                 <m:ToolbarSpacer id="_IDGenToolbarSpacer1" />
-
-                                <m:Button
-                                    id="_IDGenButton12"
-                                    text="Browse History"
-                                    press="onBrowseHistoryPress"
-                                />
                             </m:Toolbar>
                             <m:TextArea
                                 id="_IDGenTextArea1"

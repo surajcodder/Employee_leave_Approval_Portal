@@ -56,3 +56,5 @@ entity Comments : cuid, managed {
   createdAt    : Timestamp; // Auto-filled by @managed
   leaveRequest : Association to LeaveRequest; // Foreign key relation
 }
+
+
