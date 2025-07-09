@@ -4,6 +4,10 @@ const cds = require('@sap/cds');
 module.exports = cds.service.impl(async function () {
   const { LeaveRequest, Files, Comments } = this.entities;
 
+  this.before('DELETE', 'LeaveRequest', async (req) => {
+    debugger
+  })
+
   this.on('addLeaveRequest', async (req) => {
     console.log("Received Leave Request:", req.data);
 
@@ -95,21 +99,21 @@ module.exports = cds.service.impl(async function () {
     if (commentsText?.startsWith("'") && commentsText?.endsWith("'")) {
       commentsText = commentsText.slice(1, -1);
     }
-  
+
     if (!leaveRequestID || !commentsText || !user) {
       return req.error(400, "Missing required fields.");
     }
-  
+
     const leaveData = await SELECT.one.from(LeaveRequest).where({ ID: leaveRequestID });
     if (!leaveData) return req.error(404, "LeaveRequest not found.");
-  
+
     const [newComment] = await INSERT.into(Comments).entries({
       commentsText,
       user,
       leaveRequest_ID: leaveRequestID,
       createdAt: new Date()
     });
-  
+
     return newComment.ID;
   });
 
@@ -175,6 +179,10 @@ module.exports = cds.service.impl(async function () {
     const authHeader = `Bearer ${token}`;
 
     try {
+
+
+      ///////**********************AXIOS CALL*************************////////
+
       const result = await axios.post(
         'https://spa-api-gateway-bpi-us-prod.cfapps.us10.hana.ondemand.com/workflow/rest/v1/workflow-instances',
         workflowContent,
@@ -188,7 +196,20 @@ module.exports = cds.service.impl(async function () {
           }
         }
       );
-      console.log("Workflow triggered successfully.");
+
+      //////// *******************DESTINATION CALL****************/////////
+
+      // const destination = await cds.connect.to('spa_api');
+      // const result = await destination.post('/workflow/rest/v1/workflow-instances', workflowContent,
+      //   {
+      //     "Content-Type": "application/json"
+      //   });
+      // debugger
+      // console.log("Workflow triggered successfully.");
+
+
+
+      return result;
     } catch (error) {
       console.error("Workflow trigger failed:", error.response?.data || error.message);
       // optionally handle failure here (e.g., log to DB or notify)

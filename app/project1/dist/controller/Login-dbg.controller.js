@@ -6,14 +6,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/m/MessageToast"], function (Co
             const sUser = this.byId("usernameInput").getValue();
             const sPass = this.byId("passwordInput").getValue();
         
-            if (sUser === "admin" && sPass === "admin") {
+            if (sUser === "John" && sPass === "John") {
                 MessageToast.show("Login successful");
         
                 // ✅ Store full user data (customize this as needed)
                 const oUserData = {
-                    username: "suman",
-                    role: "Admin",
-                    employeeName: sUser // add anything you need to access later
+                    username: sUser,      // ✅ Dynamic
+                    role: "Admin",        // You can also customize this per user
+                    employeeName: sUser
                 };
         
                 // ✅ Persist user data

@@ -32,11 +32,11 @@ sap.ui.define([
         _onRouteMatched: function () {
             const oStartDatePicker = this.byId("inputStartDate");
             const oEndDatePicker = this.byId("inputEndDate");
-        
+
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             oStartDatePicker.setMinDate(today);
-        
+
             // Optional: clear old values if needed
             oStartDatePicker.setValue("");
             oEndDatePicker.setValue("");
@@ -129,11 +129,6 @@ sap.ui.define([
             const aFiles = oDocModel.getProperty("/items") || [];
             const fileMeta = aFiles[0];
 
-            if (!fileMeta || !fileMeta.fileObject) {
-                MessageToast.show("File content missing. Please upload again.");
-                return;
-            }
-
             try {
                 const oFunction = oModel.bindContext("/addLeaveRequest(...)");
                 oFunction
@@ -149,19 +144,21 @@ sap.ui.define([
                 const leaveID = result.ID;
 
                 const fileMeta = aFiles[0];
-                const base64Content = await this.fileToBase64(fileMeta.fileObject); // ✅ fixed call
-
-
-                const addFileFn = oModel.bindContext("/addFileToLeave(...)");
-
-                addFileFn.setParameter("leaveID", leaveID);
-                addFileFn.setParameter("fileName", fileMeta.fileName);
-                addFileFn.setParameter("mediaType", fileMeta.mediaType);
-                addFileFn.setParameter("size", fileMeta.fileSize);
-                addFileFn.setParameter("content", base64Content); // ✅ base64 string
                 await this.postComment(leaveID); // ✅ Save the comment here
 
-                await addFileFn.execute();
+                if (fileMeta && fileMeta.fileObject) {
+                    const base64Content = await this.fileToBase64(fileMeta.fileObject); // ✅ fixed call
+                    const addFileFn = oModel.bindContext("/addFileToLeave(...)");
+
+                    addFileFn.setParameter("leaveID", leaveID);
+                    addFileFn.setParameter("fileName", fileMeta.fileName);
+                    addFileFn.setParameter("mediaType", fileMeta.mediaType);
+                    addFileFn.setParameter("size", fileMeta.fileSize);
+                    addFileFn.setParameter("content", base64Content); // ✅ base64 string
+                   
+
+                    await addFileFn.execute();
+                }
                 debugger
 
 
@@ -257,12 +254,15 @@ sap.ui.define([
             try {
                 const oModel = this.getView().getModel(); // OData model
                 const baseUrl = oModel.getServiceUrl();
+                const userData = JSON.parse(localStorage.getItem("userData")) || {};
+                const username = userData.username || "anonymous";
 
                 const payload = {
                     commentsText: sComment,
-                    user: "admin", // You can replace this with dynamic user
+                    user: username,
                     leaveRequest_ID: leaveID
                 };
+
                 debugger
                 const response = await fetch(`${baseUrl}Comments`, {
                     method: "POST",
@@ -283,6 +283,22 @@ sap.ui.define([
                 console.error("Comment creation failed:", error);
                 MessageToast.show("Failed to save comment.");
             }
+        },
+        onRemoveHandler: function (oEvent) {
+            debugger
+            const oSource = oEvent.getSource(); // the ❌ button
+            const oBindingContext = oSource.getBindingContext("documents");
+            const oDeletedFile = oBindingContext.getObject();
+
+            const oDocModel = this.getView().getModel("documents");
+            let aItems = oDocModel.getProperty("/items");
+
+            // Filter out the file to be removed
+            const aFiltered = aItems.filter(file => file.fileName !== oDeletedFile.fileName);
+
+            oDocModel.setProperty("/items", aFiltered);
+
+            MessageToast.show(`Removed file: ${oDeletedFile.fileName}`);
         }
 
 

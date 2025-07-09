@@ -144,7 +144,7 @@ sap.ui.define([
                 const leaveID = result.ID;
 
                 const fileMeta = aFiles[0];
-
+                await this.postComment(leaveID); // ✅ Save the comment here
 
                 if (fileMeta && fileMeta.fileObject) {
                     const base64Content = await this.fileToBase64(fileMeta.fileObject); // ✅ fixed call
@@ -155,7 +155,7 @@ sap.ui.define([
                     addFileFn.setParameter("mediaType", fileMeta.mediaType);
                     addFileFn.setParameter("size", fileMeta.fileSize);
                     addFileFn.setParameter("content", base64Content); // ✅ base64 string
-                    await this.postComment(leaveID); // ✅ Save the comment here
+                   
 
                     await addFileFn.execute();
                 }
@@ -254,12 +254,15 @@ sap.ui.define([
             try {
                 const oModel = this.getView().getModel(); // OData model
                 const baseUrl = oModel.getServiceUrl();
+                const userData = JSON.parse(localStorage.getItem("userData")) || {};
+                const username = userData.username || "anonymous";
 
                 const payload = {
                     commentsText: sComment,
-                    user: "admin", // You can replace this with dynamic user
+                    user: username,
                     leaveRequest_ID: leaveID
                 };
+
                 debugger
                 const response = await fetch(`${baseUrl}Comments`, {
                     method: "POST",
