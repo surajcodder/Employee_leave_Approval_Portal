@@ -9,6 +9,8 @@ service MyService {
 
   entity Files        as projection on db.Files;
 
+  entity MyBusinessObject as projection on db.MyBusinessObject;
+
 
   function addLeaveRequest(employeeName : String(100),
                            leaveType : String(50),

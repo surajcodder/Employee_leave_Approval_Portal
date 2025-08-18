@@ -12,19 +12,22 @@
     "@sap-cloud-sdk/http-client": "^2.9.0",
     "@sap-cloud-sdk/resilience": "^3.17.0",
     "@sap/cds": "^9.0.4",
+    "@sap/hdi-deploy": "^5.5.0",
     "@sap/xsenv": "^5.6.1",
     "@sap/xssec": "^4",
     "axios": "^1.7.2",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "hdb": "^2.25.1"
   },
   "devDependencies": {
     "@sap/cds-dk": "^9.0.6",
     "@sap/eslint-plugin-cds": "^3",
     "@sap/ux-specification": "^1.120.17",
     "eslint": "^9",
-    "rimraf": "^5.0.5",
-    "mbt": "^1.2.29"
+    "mbt": "^1.2.29",
+    "rimraf": "^5.0.5"
   },
   "scripts": {
     "start": "cds-serve",

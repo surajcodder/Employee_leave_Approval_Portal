@@ -11,6 +11,15 @@ entity LeaveType {
       name : String(50);
 }
 
+entity Login : cuid, managed {
+  username : String(50);
+  email    : String(100);
+  password : String(256); // This will store the **hashed** password
+  role     : String(30);
+  status   : String(20);
+}
+
+
 // Leave Request Entity
 // @odata.draft.bypass: true|
 entity LeaveRequest : managed {
@@ -28,6 +37,7 @@ entity LeaveRequest : managed {
                        on files.fileToLeave = $self;
       comments     : Composition of many Comments
                        on comments.leaveRequest = $self;
+      businessobject: Composition of many MyBusinessObject on businessobject.leaveRequest = $self
 }
 
 // File Attachment Entity
@@ -57,4 +67,18 @@ entity Comments : cuid, managed {
   leaveRequest : Association to LeaveRequest; // Foreign key relation
 }
 
+entity MyBusinessObject {
+    key ID              : UUID;
+    description         : String;
+    status              : String;
+    workflowInstanceId  : String; // store Workflow API "id"
+    createdAt           : Timestamp;
+    updatedAt           : Timestamp;
 
+    // New: Foreign key to LeaveRequest
+    leaveRequest_ID     : UUID;
+
+    // New: Association to LeaveRequest
+    leaveRequest        : Association to LeaveRequest
+                            on leaveRequest.ID = leaveRequest_ID;
+}
