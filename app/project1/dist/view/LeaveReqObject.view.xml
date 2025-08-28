@@ -215,34 +215,10 @@
                                             text="File Name"
                                         />
                                     </m:Column>
-                                    <m:Column id="_IDGenColumn6">
-                                        <m:Label
-                                            id="_IDGenLabel13"
-                                            text="ID"
-                                        />
-                                    </m:Column>
-                                    <m:Column id="_IDGenColumn7">
-                                        <m:Label
-                                            id="_IDGenLabel14"
-                                            text="Revision"
-                                        />
-                                    </m:Column>
-                                    <m:Column id="_IDGenColumn8">
-                                        <m:Label
-                                            id="_IDGenLabel15"
-                                            text="Status"
-                                        />
-                                    </m:Column>
                                     <m:Column id="_IDGenColumn9">
                                         <m:Label
                                             id="_IDGenLabel16"
                                             text="File Size"
-                                        />
-                                    </m:Column>
-                                    <m:Column id="_IDGenColumn10">
-                                        <m:Label
-                                            id="_IDGenLabel17"
-                                            text="Last Modified"
                                         />
                                     </m:Column>
                                     <m:Column id="_IDGenColumn11" />
@@ -282,31 +258,9 @@
                                                 </m:VBox>
                                             </m:HBox>
                                             <m:Text
-                                                id="_IDGenText10"
-                                                text="{documents>id}"
-                                            />
-                                            <m:Link
-                                                id="_IDGenLink1"
-                                                text="{documents>revision}"
-                                            />
-                                            <m:Text
-                                                id="_IDGenText11"
-                                                text="{documents>status}"
-                                            />
-                                            <m:Text
                                                 id="_IDGenText12"
                                                 text="{parts: ['documents>fileSize'], formatter: '.getFileSizeWithUnits'}"
                                             />
-                                            <m:VBox id="_IDGenVBox2">
-                                                <m:Text
-                                                    id="_IDGenText13"
-                                                    text="{documents>lastModifiedBy}"
-                                                />
-                                                <m:Text
-                                                    id="_IDGenText14"
-                                                    text="{documents>lastmodified}"
-                                                />
-                                            </m:VBox>
                                             <m:Button
                                                 id="_IDGenButton9"
                                                 type="Transparent"
@@ -348,7 +302,7 @@
                                 maxLength="1000"
                                 width="100%"
                                 height="120px"
-                                 value="{commentModel>/comment}"
+                                value="{commentModel>/comment}"
                                 change="_PostComment"
                             />
                         </m:VBox>

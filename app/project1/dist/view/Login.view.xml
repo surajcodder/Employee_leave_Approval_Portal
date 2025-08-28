@@ -6,89 +6,47 @@
     displayBlock="true"
 >
     <Page
-        id="loginPage"
-        title="Welcome to Leave Portal"
-        class="loginPage"
         showHeader="false"
+        class="welcomePage"
     >
         <content>
             <VBox
-                id="loginBox"
-                class="loginBox"
                 alignItems="Center"
                 justifyContent="Center"
                 width="100%"
+                height="100%"
+                class="welcomeContainer"
             >
-                <Text
-                    id="_IDGenText24"
-                    text="👤"
-                    class="bigIcon"
-                />
-
-                <Title
-                    id="_IDGenTitle5"
-                    text="Leave Request Portal"
-                    level="H1"
-                    class="sapUiMediumMarginBottom"
-                />
-
-                <Text
-                    id="_IDGenText25"
-                    text="Welcome back! Please log in to continue."
-                    class="sapUiSmallMarginBottom"
-                />
-
-                <HBox id="_IDGenHBox2"
-                    alignItems="Center"
-                    class="sapUiSmallMarginTop"
-                    justifyContent="Start"
+                <Panel
+                    width="400px"
+                    class="welcomeCard"
                 >
-                    <core:Icon id="_IDGenIcon2"
-                        src="sap-icon://person-placeholder"
-                        size="1.5rem"
-                        color="#0a6ed1"
-                        class="sapUiTinyMarginEnd"
-                    />
-                    <Input
-                        id="usernameInput"
-                        placeholder="Enter Username"
-                        width="260px"
-                    />
-                </HBox>
-
-                <HBox id="_IDGenHBox3"
-                    alignItems="Center"
-                    class="sapUiSmallMarginTop"
-                    justifyContent="Start"
-                >
-                    <core:Icon id="_IDGenIcon3"
-                        src="sap-icon://key"
-                        size="1.5rem"
-                        color="#0a6ed1"
-                        class="sapUiTinyMarginEnd"
-                    />
-                    <Input
-                        id="passwordInput"
-                        placeholder="Enter Password"
-                        type="Password"
-                        width="260px"
-                    />
-                </HBox>
-
-                <Button
-                    id="loginBtn"
-                    text="🔓 Login"
-                    type="Emphasized"
-                    width="280px"
-                    press="onLogin"
-                    class="sapUiMediumMarginTop"
-                />
-
-                <Text
-                    id="_IDGenText26"
-                    text="© 2025 Your Company"
-                    class="sapUiTinyMarginTop"
-                />
+                    <content>
+                        <VBox
+                            alignItems="Center"
+                            justifyContent="Center"
+                            class="sapUiSmallMargin"
+                        >
+                            <Text
+                                text="👋 Welcome to the Leave Request Portal"
+                                class="welcomeTitle"
+                            />
+                            <ProgressIndicator
+                                id="progressBar"
+                                percentValue="0"
+                                displayValue="Loading..."
+                                showValue="true"
+                                width="100%"
+                                state="Information"
+                                class="customProgress"
+                            />
+                            <Text
+                                text="Preparing your dashboard..."
+                                class="welcomeSubtitle sapUiSmallMarginTop"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
             </VBox>
         </content>
     </Page>

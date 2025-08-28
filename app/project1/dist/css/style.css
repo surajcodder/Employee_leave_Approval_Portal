@@ -1,4 +1,22 @@
-/* Base style for the box */
+/*============================= */
+/*     Dashboard Summary        */
+/*============================= */
+.dashboardSummary {
+    margin-bottom: 1rem;
+}
+
+.summaryNumber {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 0.2rem;
+    color: #333;
+}
+
+
+
+/* ============================= */
+/* Status Colored Boxes          */
+/* ============================= */
 .coloredBox {
     padding: 4px 8px;
     border-radius: 6px;
@@ -6,66 +24,239 @@
     display: inline-block;
 }
 
-/* Approved - Green Box */
 .coloredBox.sapMObjStatusSuccess {
     background-color: #dff5e1;
     border: 1px solid #2e7d32;
     color: #2e7d32;
 }
 
-/* Pending - Orange Box */
 .coloredBox.sapMObjStatusWarning {
     background-color: #fff3e0;
     border: 1px solid #ef6c00;
     color: #ef6c00;
 }
 
-/* Cancel - Red Box */
 .coloredBox.sapMObjStatusError {
     background-color: #fdecea;
     border: 1px solid #d32f2f;
     color: #d32f2f;
 }
 
+/* ============================= */
+/* Page & Layout                 */
+/* ============================= */
+.loginPage {
+    background: linear-gradient(to right, #fff5e1, #f7e9d7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-.loginBox {
-    height: 100vh;
-    background: linear-gradient(to right, #74ebd5, #acb6e5);
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 1s ease-in-out;
+/* Card with warm tint + glass effect */
+.loginCard {
+    background: rgba(255, 250, 245, 0.92);
+    backdrop-filter: blur(20px);
+    padding: 2.5rem;
+    width: 350px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 8px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: fadeIn 0.8s ease-in-out;
+    text-align: center;
+}
+
+/* ============================= */
+/* Inputs                        */
+/* ============================= */
+.loginCard input {
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
+}
+
+.loginCard input:focus {
+    border-color: #ff9900;
+    box-shadow: 0 0 8px rgba(255, 153, 0, 0.3);
+    outline: none;
+}
+
+/* ============================= */
+/* Button (Fixed Alignment)      */
+/* ============================= */
+* Login Button */ .loginIconButton {
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    /* centers inner button */
+}
+
+.loginIconButton .sapMBtnInner {
+    background: linear-gradient(to right, #ff9900, #ffb84d);
+    border-radius: 12px;
+    padding: 0.8rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none !important;
+    /* remove default border */
+}
+
+/* Icon inside Button */
+.loginIconButton .sapMBtnIcon {
+    font-size: 1.4rem;
+    color: #fff !important;
+    /* white icon for contrast */
+    margin: 0;
+}
+
+/* ============================= */
+/* Typography                    */
+/* ============================= */
+.titleText {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #222;
+    margin-top: 0.5rem;
+}
+
+.subtitleText {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1.5rem;
 }
 
 .bigIcon {
-    font-size: 5rem;
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+}
+
+.footerText {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 1rem;
+}
+
+/* ============================= */
+/* Input Row                     */
+/* ============================= */
+/* Input Row Wrapper */
+/* Input Row Wrapper */
+/* Input Row (outer wrapper) */
+.inputRow {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.4rem 0.6rem;
     margin-bottom: 1rem;
-    animation: popIn 1s ease;
+    border: 1px solid #ddd;
+    gap: 0.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
 }
 
-@keyframes popIn {
-    0% {
-        transform: scale(0.5);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+.inputRow:hover {
+    border-color: #0a6ed1;
+    box-shadow: 0 0 5px rgba(10, 110, 209, 0.2);
 }
 
+/* Remove default SAPUI5 input border */
+.inputRow .sapMInputBaseContentWrapper {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Remove input padding & let it expand */
+.inputRow .sapMInputBaseInner {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+
+/* ============================= */
+/* Animation                     */
+/* ============================= */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-#loginBtn {
-    border-radius: 25px;
+
+
+/* Kill the dotted focus rectangle inside this VizFrame only */
+.noFocusViz.sapVizFrame *:focus {
+    outline: none !important;
+}
+
+/* Viz renders a dashed SVG rect as a focus/selection frame; hide it */
+.noFocusViz.sapVizFrame .v-focusframe,
+.noFocusViz.sapVizFrame .v-interaction-frame,
+.noFocusViz.sapVizFrame .v-selectionRect,
+.noFocusViz.sapVizFrame .v-brush .extent,
+.noFocusViz.sapVizFrame g.v-focus rect,
+.noFocusViz.sapVizFrame rect.v-focus,
+.noFocusViz.sapVizFrame rect.v-select-rect,
+.noFocusViz.sapVizFrame .v-halo {
+    display: none !important;
+    stroke: none !important;
+}
+
+/* Optional: subtle hover so users still see feedback */
+.noFocusViz.sapVizFrame .v-datapoint:hover path {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, .3));
+    cursor: pointer;
+}
+
+/* Full page background */
+.welcomePage {
+    background: linear-gradient(135deg, #f0f6ff, #dceeff);
+}
+
+/* Centering container */
+.welcomeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* full height */
+}
+
+/* Card styling */
+.welcomeCard {
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    background: #ffffff;
+}
+
+/* Title */
+.welcomeTitle {
+    font-size: 1.6rem;
     font-weight: bold;
+    color: #0a6ed1;
+    /* SAP blue */
+    text-align: center;
+}
+
+/* Subtitle */
+.welcomeSubtitle {
+    font-size: 1rem;
+    color: #5f6368;
+    text-align: center;
 }

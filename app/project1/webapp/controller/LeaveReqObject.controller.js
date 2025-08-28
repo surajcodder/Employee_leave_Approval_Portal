@@ -71,7 +71,7 @@ sap.ui.define([
                 return;
             }
 
-            const base64 = await this.fileToBase64(oFile); // ✅ convert content
+            const base64 = await this.fileToBase64(oFile); //✅ convert content
 
             const oModel = this.getView().getModel("documents");
             const aItems = oModel.getProperty("/items") || [];
@@ -81,12 +81,12 @@ sap.ui.define([
                 mediaType: oFile.type,
                 fileSize: oFile.size,
                 fileObject: oFile,
-                content: base64,     // ✅ THIS is what was missing earlier
+                content: base64,     //✅ THIS is what was missing earlier
                 ID: null             // Will be filled later after backend save
             });
 
             oModel.setProperty("/items", aItems);
-            oEvent.preventDefault(); // ✅ prevent native upload
+            oEvent.preventDefault(); //✅ prevent native upload
             MessageToast.show("File stored locally.");
         },
 
@@ -107,10 +107,12 @@ sap.ui.define([
 
         onCreate: async function () {
             debugger
-
-
             const oView = this.getView();
             const oModel = this.getOwnerComponent().getModel();
+            const oUserModel = this.getOwnerComponent().getModel("userModel");
+            const oUserData = oUserModel ? oUserModel.getData() : {};
+
+            const email = oUserData.email
             const baseUrl = oModel.getServiceUrl();
 
             const employeeName = oView.byId("inputEmployeeName").getValue();
@@ -137,7 +139,8 @@ sap.ui.define([
                     .setParameter("startDate", startDate)
                     .setParameter("endDate", endDate)
                     .setParameter("reason", reason)
-                    .setParameter("status", status);
+                    .setParameter("status", status)
+                    .setParameter("UserEmail", email);
 
                 await oFunction.execute();
                 const result = await oFunction.getBoundContext().requestObject();
@@ -155,19 +158,12 @@ sap.ui.define([
                     addFileFn.setParameter("mediaType", fileMeta.mediaType);
                     addFileFn.setParameter("size", fileMeta.fileSize);
                     addFileFn.setParameter("content", base64Content); // ✅ base64 string
-                   
-
                     await addFileFn.execute();
                 }
                 debugger
-
-
                 MessageToast.show("Leave request submitted with file and comment.");
                 this.onCancel();
-
                 MessageToast.show("Leave request submitted with file.");
-                debugger
-
                 debugger
                 this.onCancel();
             } catch (error) {
@@ -177,10 +173,9 @@ sap.ui.define([
         },
 
         onCancel: function () {
+            debugger
             this.getOwnerComponent().getRouter().navTo("View1");
         },
-
-
 
 
         openPreview: async function (oEvent) {
@@ -242,8 +237,9 @@ sap.ui.define([
                 MessageToast.show("Failed to load preview.");
             }
         },
+
         postComment: async function (leaveID) {
-            debugger
+            debugger;
             const oCommentModel = this.getView().getModel("commentModel");
             const sComment = oCommentModel.getProperty("/comment");
 
@@ -254,36 +250,38 @@ sap.ui.define([
             try {
                 const oModel = this.getView().getModel(); // OData model
                 const baseUrl = oModel.getServiceUrl();
-                const userData = JSON.parse(localStorage.getItem("userData")) || {};
-                const username = userData.username || "anonymous";
+
+                // 🔹 Fetch username from userModel instead of localStorage
+                const oUserModel = this.getView().getModel("userModel");
+                const username = oUserModel ? oUserModel.getProperty("/employeeName") : "anonymous";
 
                 const payload = {
                     commentsText: sComment,
-                    user: username,
+                    user: username,             // Bound from userModel
                     leaveRequest_ID: leaveID
                 };
 
-                debugger
+                debugger;
                 const response = await fetch(`${baseUrl}Comments`, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-                debugger
 
+                debugger;
                 if (!response.ok) {
                     throw new Error("Failed to post comment");
                 }
 
                 MessageToast.show("Comment saved.");
                 oCommentModel.setProperty("/comment", ""); // Clear input
+
             } catch (error) {
                 console.error("Comment creation failed:", error);
                 MessageToast.show("Failed to save comment.");
             }
         },
+
         onRemoveHandler: function (oEvent) {
             debugger
             const oSource = oEvent.getSource(); // the ❌ button
@@ -300,10 +298,6 @@ sap.ui.define([
 
             MessageToast.show(`Removed file: ${oDeletedFile.fileName}`);
         }
-
-
-
-
 
     });
 });

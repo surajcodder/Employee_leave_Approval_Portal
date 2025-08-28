@@ -1,3 +1,19 @@
+/*============================= */
+/*     Dashboard Summary        */
+/*============================= */
+.dashboardSummary {
+    margin-bottom: 1rem;
+}
+
+.summaryNumber {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 0.2rem;
+    color: #333;
+}
+
+
+
 /* ============================= */
 /* Status Colored Boxes          */
 /* ============================= */
@@ -179,4 +195,68 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+
+
+/* Kill the dotted focus rectangle inside this VizFrame only */
+.noFocusViz.sapVizFrame *:focus {
+    outline: none !important;
+}
+
+/* Viz renders a dashed SVG rect as a focus/selection frame; hide it */
+.noFocusViz.sapVizFrame .v-focusframe,
+.noFocusViz.sapVizFrame .v-interaction-frame,
+.noFocusViz.sapVizFrame .v-selectionRect,
+.noFocusViz.sapVizFrame .v-brush .extent,
+.noFocusViz.sapVizFrame g.v-focus rect,
+.noFocusViz.sapVizFrame rect.v-focus,
+.noFocusViz.sapVizFrame rect.v-select-rect,
+.noFocusViz.sapVizFrame .v-halo {
+    display: none !important;
+    stroke: none !important;
+}
+
+/* Optional: subtle hover so users still see feedback */
+.noFocusViz.sapVizFrame .v-datapoint:hover path {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, .3));
+    cursor: pointer;
+}
+
+/* Full page background */
+.welcomePage {
+    background: linear-gradient(135deg, #f0f6ff, #dceeff);
+}
+
+/* Centering container */
+.welcomeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* full height */
+}
+
+/* Card styling */
+.welcomeCard {
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    background: #ffffff;
+}
+
+/* Title */
+.welcomeTitle {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #0a6ed1;
+    /* SAP blue */
+    text-align: center;
+}
+
+/* Subtitle */
+.welcomeSubtitle {
+    font-size: 1rem;
+    color: #5f6368;
+    text-align: center;
 }

@@ -44,9 +44,6 @@ sap.ui.define([
         }
       });
       // ----- comments Section
-
-
-
       // --- Load files (attachments) manually using bindList ---
       const sFilePath = `${sContextPath}/files`;
 
@@ -83,7 +80,6 @@ sap.ui.define([
         console.error("Failed to load comments:", oError);
         sap.m.MessageToast.show("Failed to load comments.");
       });
-
     },
 
 

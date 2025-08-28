@@ -2,12 +2,14 @@
     controllerName="project1.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
 >
     <Page
-    id="_IDGenPage1"
-     title="{= 'Welcome ' + ${userModel>/employeeName} + ', Your Leave Request Portal' }"
->
-
+        id="_IDGenPage1"
+        title="{= 'Welcome ' + ${userModel>/employeeName} + ', Your Leave Request Portal' }"
+    >
         <headerContent>
             <OverflowToolbar id="_IDGenOverflowToolbar1">
                 <Button
@@ -21,6 +23,133 @@
         </headerContent>
 
         <content>
+            <!-- Pie Chart Dashboard -->
+            <VBox
+                id="_IDGenVBox2"
+                class="sapUiSmallMargin sapUiMediumMarginTop"
+            >
+                <!-- Leave Summary Card -->
+                <Panel
+                    id="_IDGenPanel"
+                    headerText="Leave Summary"
+                    expandable="false"
+                    class="sapUiResponsiveMargin sapUiNoContentPadding"
+                >
+                    <content>
+                        <HBox
+                            id="_IDGenHBox2"
+                            renderType="Bare"
+                            class="sapUiSmallMargin"
+                        >
+                            <!-- Left Side: KPIs -->
+                            <VBox
+                                id="_IDGenVBox5"
+                                class="sapUiSmallMargin sapUiLargeMarginBegin"
+                                width="30%"
+                            >
+                                <Text
+                                    id="_IDGenText10"
+                                    text="Leave Overview"
+                                    class="sapUiTinyMarginBottom sapUiTinyMarginTop"
+                                />
+
+                                <!-- Total -->
+                                <ObjectNumber
+                                    id="_IDGenObjectNumber"
+                                    number="{summaryModel>/Totals/total}"
+                                    unit="Total"
+                                    state="Information"
+                                    class="sapUiTinyMarginBottom"
+                                />
+
+                                <ObjectNumber
+                                    id="_IDGenObjectNumber1"
+                                    number="{summaryModel>/Totals/approved}"
+                                    unit="Approved"
+                                    state="Success"
+                                    class="sapUiTinyMarginBottom"
+                                />
+
+                                <ObjectNumber
+                                    id="_IDGenObjectNumber2"
+                                    number="{summaryModel>/Totals/pending}"
+                                    unit="Pending"
+                                    state="Warning"
+                                    class="sapUiTinyMarginBottom"
+                                />
+
+                                <ObjectNumber
+                                    id="_IDGenObjectNumber3"
+                                    number="{summaryModel>/Totals/rejected}"
+                                    unit="Rejected"
+                                    state="Error"
+                                    class="sapUiTinyMarginBottom"
+                                />
+                            </VBox>
+
+                            <!-- Right Side: Donut Chart -->
+                            <VBox
+                                id="_IDGenVBox6"
+                                width="70%"
+                                class="sapUiSmallMarginBegin"
+                            >
+                                <viz:VizFrame
+                                    id="idLeaveChart"
+                                    class="noFocusViz"
+                                    width="100%"
+                                    height="400px"
+                                    vizType="donut"
+                                    uiConfig="{applicationSet:'fiori'}"
+                                    vizProperties="{
+        'title': {
+            'text': 'Leave Chart',
+            'visible': true
+        }
+    }"
+                                >
+                                    <viz:dataset>
+                                        <viz.data:FlattenedDataset
+                                            id="_IDGenFlattenedDataset"
+                                            data="{summaryModel>/LeaveSummary}"
+                                        >
+                                            <viz.data:dimensions>
+                                                <viz.data:DimensionDefinition
+                                                    id="_IDGenDimensionDefinition"
+                                                    name="Status"
+                                                    value="{summaryModel>status}"
+                                                />
+                                            </viz.data:dimensions>
+                                            <viz.data:measures>
+                                                <viz.data:MeasureDefinition
+                                                    id="_IDGenMeasureDefinition"
+                                                    name="Count"
+                                                    value="{summaryModel>count}"
+                                                />
+                                            </viz.data:measures>
+                                        </viz.data:FlattenedDataset>
+                                    </viz:dataset>
+
+                                    <viz:feeds>
+                                        <viz.feeds:FeedItem
+                                            id="_IDGenFeedItem1"
+                                            uid="size"
+                                            type="Measure"
+                                            values="Count"
+                                        />
+                                        <viz.feeds:FeedItem
+                                            id="_IDGenFeedItem2"
+                                            uid="color"
+                                            type="Dimension"
+                                            values="Status"
+                                        />
+                                    </viz:feeds>
+                                </viz:VizFrame>
+                            </VBox>
+                        </HBox>
+                    </content>
+                </Panel>
+            </VBox>
+
             <Table
                 id="leaveRequestTable"
                 items="{ path: '/LeaveRequest' }"
@@ -99,12 +228,12 @@
                                     tooltip="View"
                                     press="onViewLeave"
                                 />
-                                <Button
+                                <!-- <Button
                                     id="_IDGenButton2"
                                     icon="sap-icon://edit"
                                     tooltip="Edit"
                                     press="onEditLeave"
-                                />
+                                /> -->
                                 <Button
                                     id="_IDGenButton3"
                                     icon="sap-icon://delete"

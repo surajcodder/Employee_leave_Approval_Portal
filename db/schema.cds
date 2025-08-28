@@ -18,8 +18,6 @@ entity Login : cuid, managed {
   role     : String(30);
   status   : String(20);
 }
-
-
 // Leave Request Entity
 // @odata.draft.bypass: true|
 entity LeaveRequest : managed {

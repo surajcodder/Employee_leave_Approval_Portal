@@ -5,41 +5,48 @@
     xmlns:core="sap.ui.core"
     displayBlock="true"
 >
-    <Page id="loginPage" showHeader="false" class="loginPage">
+    <Page
+        showHeader="false"
+        class="welcomePage"
+    >
         <content>
-            <VBox alignItems="Center" justifyContent="Center" width="100%" height="100%">
-                
-                <!-- Login Card -->
-                <VBox class="loginCard" alignItems="Center" justifyContent="Center">
-                    <Text text="👤" class="bigIcon" />
-
-                    <Title text="Leave Request Portal" level="H1" class="titleText" />
-
-                    <Text text="Welcome back! Please log in to continue." class="subtitleText" />
-
-                    <!-- Username -->
-                    <HBox alignItems="Center" class="inputRow">
-                        <core:Icon src="sap-icon://person-placeholder" size="1.3rem" color="#555" />
-                        <Input id="usernameInput" placeholder="Enter Username" width="100%" />
-                    </HBox>
-
-                    <!-- Password -->
-                    <HBox alignItems="Center" class="inputRow">
-                        <core:Icon src="sap-icon://key" size="1.3rem" color="#555" />
-                        <Input id="passwordInput" placeholder="Enter Password" type="Password" width="100%" />
-                    </HBox>
-
-                    <!-- Login Button -->
-                   <Button
-    icon="sap-icon://visits"
-    type="Emphasized"
-    press="onLogin"
-    class="loginIconButton"
-/>
-
-
-                    <Text text="© 2025 Your Company" class="footerText" />
-                </VBox>
+            <VBox
+                alignItems="Center"
+                justifyContent="Center"
+                width="100%"
+                height="100%"
+                class="welcomeContainer"
+            >
+                <Panel
+                    width="400px"
+                    class="welcomeCard"
+                >
+                    <content>
+                        <VBox
+                            alignItems="Center"
+                            justifyContent="Center"
+                            class="sapUiSmallMargin"
+                        >
+                            <Text
+                                text="👋 Welcome to the Leave Request Portal"
+                                class="welcomeTitle"
+                            />
+                            <ProgressIndicator
+                                id="progressBar"
+                                percentValue="0"
+                                displayValue="Loading..."
+                                showValue="true"
+                                width="100%"
+                                state="Information"
+                                class="customProgress"
+                            />
+                            <Text
+                                text="Preparing your dashboard..."
+                                class="welcomeSubtitle sapUiSmallMarginTop"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
             </VBox>
         </content>
     </Page>

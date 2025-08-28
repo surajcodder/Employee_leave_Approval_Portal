@@ -17,7 +17,8 @@ service MyService {
                            startDate : Date,
                            endDate : Date,
                            reason : String(250),
-                           status : String(20) // 'Pending' or predefined
+                           status : String(20), // 'Pending' or predefined
+                           UserEmail: String(50)
   )                                              returns LeaveRequest;
 
 

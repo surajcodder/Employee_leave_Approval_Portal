@@ -7,32 +7,36 @@ sap.ui.define([
 
     return Controller.extend("project1.controller.View1", {
         onInit: function () {
-            debugger
+            debugger;
+
             const oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("View1").attachPatternMatched(this._onRouteMatched, this);
-        
-            // Check if userModel is already set, else try to load from localStorage
+
+            // Prepare userModel
             let oUserModel = this.getOwnerComponent().getModel("userModel");
-        
             if (!oUserModel) {
                 oUserModel = new sap.ui.model.json.JSONModel();
                 this.getOwnerComponent().setModel(oUserModel, "userModel");
             }
-        
-            if (!oUserModel.getData().username) {
-                const sStoredUserData = localStorage.getItem("userData");
-                if (sStoredUserData) {
-                    oUserModel.setData(JSON.parse(sStoredUserData));
-                }
-            }
-        
-            // Still not found after trying to restore? Force login
-            if (!oUserModel.getData().username) {
-                sap.m.MessageToast.show("User not found. Please login again.");
+
+            // Fetch from FLP user info service
+            try {
+                const oUserInfo = new sap.ushell.services.UserInfo();
+                const sEmail = oUserInfo.getEmail();
+                const sFirstName = oUserInfo.getFirstName();
+
+                oUserModel.setData({
+                    username: sFirstName,     // for old references
+                    email: sEmail,
+                    firstName: sFirstName,    // optional
+                    employeeName: sFirstName  // 👈 used in your title binding
+                });
+            } catch (e) {
+                sap.m.MessageToast.show("User info not available. Please login again.");
                 this.getOwnerComponent().getRouter().navTo("RouteLogin");
             }
         },
-        
+
 
         _onRouteMatched: function () {
             const oTable = this.byId("leaveRequestTable");
@@ -41,7 +45,6 @@ sap.ui.define([
                 oBinding.refresh(); // ✅ This will reload the table data
             }
         },
-
 
         onAfterRendering: function () {
             debugger
@@ -60,7 +63,93 @@ sap.ui.define([
                     oStatus.addStyleClass("statusRed");
                 }
             });
+
+            var oModel = this.getOwnerComponent().getModel();
+            if (oModel) {
+                this._loadLeaveSummary(oModel);
+            }
+            var oVizFrame = this.byId("idLeaveChart");
+
+            var oVizFrame = this.byId("idLeaveChart");
+
+            oVizFrame.setVizProperties({
+                plotArea: {
+                    colorPalette: null, // disable semantic palette
+                    dataPointStyle: {
+                        rules: [
+                            { dataContext: { Status: "Approved" }, properties: { color: "#2ecc71" } }, // green
+                            { dataContext: { Status: "Pending" }, properties: { color: "#e67e22" } },  // orange
+                            { dataContext: { Status: "Rejected" }, properties: { color: "#e74c3c" } }  // red
+                        ],
+                        others: { properties: { color: "#95a5a6" } } // grey fallback
+                    }
+                },
+                legend: { visible: true, title: { visible: false } },
+                title: { visible: true }
+            });
         },
+
+        _loadLeaveSummary: function () {
+            var oModel = this.getView().getModel(); // V4 ODataModel
+
+            // Create a ListBinding to the entity set
+            var oBinding = oModel.bindList("/LeaveRequest");
+
+            oBinding.requestContexts().then(function (aContexts) {
+                var mSummary = {};
+
+                aContexts.forEach(function (oContext) {
+                    var oLeave = oContext.getObject(); // V4: context object
+                    var sStatus = oLeave.status;
+
+                    if (!mSummary[sStatus]) {
+                        mSummary[sStatus] = 0;
+                    }
+                    mSummary[sStatus]++;
+                });
+
+                var aSummaryData = Object.keys(mSummary).map(function (sKey) {
+                    return { status: sKey, count: mSummary[sKey] };
+                });
+
+                var total = 0,
+                    approved = 0,
+                    pending = 0,
+                    rejected = 0;
+
+                aSummaryData.forEach(function (item) {
+                    total += item.count;
+                    if (item.status === "Approved") {
+                        approved = item.count;
+                    } else if (item.status === "Pending") {
+                        pending = item.count;
+                    } else if (item.status === "Rejected") {
+                        rejected = item.count;
+                    }
+                });
+
+                // Build model with totals + percentages
+                var oSummaryModel = new sap.ui.model.json.JSONModel({
+                    LeaveSummary: aSummaryData,
+                    Totals: {
+                        total: total,
+                        approved: approved,
+                        pending: pending,
+                        rejected: rejected,
+                        approvedPct: total ? Math.round((approved / total) * 100) : 0,
+                        pendingPct: total ? Math.round((pending / total) * 100) : 0,
+                        rejectedPct: total ? Math.round((rejected / total) * 100) : 0
+                    }
+                });
+
+                this.getView().setModel(oSummaryModel, "summaryModel");
+
+            }.bind(this)).catch(function (oError) {
+                sap.m.MessageToast.show("Failed to fetch leave requests.");
+                console.error(oError);
+            });
+        },
+
         onUpdate: function (oEvent) {
             debugger
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -71,6 +160,9 @@ sap.ui.define([
             debugger
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             oRouter.navTo("LeaveReqObject"); // This should match the "name" in routes
+
+            // 🔄 force chart refresh
+            
             debugger
         },
         onViewLeave: function (oEvent) {
@@ -78,10 +170,10 @@ sap.ui.define([
             this.getOwnerComponent().getRouter().navTo("LeaveReqDetailed", { ID: sId });
         },
 
-        onEditLeave: function (oEvent) {
-            const sId = oEvent.getSource().getParent().getParent().getBindingContext().getProperty("ID");
-            this.getOwnerComponent().getRouter().navTo("UpdateLeaveReq", { ID: sId });
-        },
+        // onEditLeave: function (oEvent) {
+        //     const sId = oEvent.getSource().getParent().getParent().getBindingContext().getProperty("ID");
+        //     this.getOwnerComponent().getRouter().navTo("UpdateLeaveReq", { ID: sId });
+        // },
 
         onDeleteLeave: function (oEvent) {
             debugger;
@@ -103,9 +195,12 @@ sap.ui.define([
                             type: "DELETE",
                             success: function () {
                                 MessageToast.show("Leave request deleted.");
-                                oModel.refresh(); // ✅ Refresh data to reflect deletion
-                                debugger
-                            },
+                                oModel.refresh(); // refresh table
+
+                                // 🔄 Recalculate chart summary
+                                this._loadLeaveSummary(oModel);
+
+                            }.bind(this), // ✅ bind 'this' to access controller methods
                             error: function () {
                                 MessageToast.show("Failed to delete leave request.");
                             }
@@ -113,9 +208,6 @@ sap.ui.define([
                     }
                 }
             });
-
         }
-
-
     });
 });

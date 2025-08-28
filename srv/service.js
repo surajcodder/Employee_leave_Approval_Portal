@@ -2,6 +2,7 @@ const { Console } = require("console");
 const axios = require('axios');
 const cds = require('@sap/cds');
 const bcrypt = require('bcryptjs');
+var Email;
 module.exports = cds.service.impl(async function () {
   const { LeaveRequest, Files, Comments, MyBusinessObject } = this.entities;
 
@@ -49,8 +50,9 @@ module.exports = cds.service.impl(async function () {
 
     const {
       employeeName, leaveType, startDate, endDate, reason, status,
-      fileName, mediaType, fileSize
+      fileName, mediaType, fileSize, UserEmail
     } = req.data;
+    Email = UserEmail;
 
     // ✅ Insert the new Leave Request
     const [newLeave] = await INSERT.into(LeaveRequest).entries({
@@ -298,7 +300,8 @@ module.exports = cds.service.impl(async function () {
         "customername": leaveData.employeeName,
         "id": leaveID,
         "file": fileString,
-        "comments": formattedComments
+        "comments": formattedComments,
+        "useremail": Email
       }
     });
 
