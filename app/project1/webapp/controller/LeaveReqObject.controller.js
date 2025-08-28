@@ -298,6 +298,5 @@ sap.ui.define([
 
             MessageToast.show(`Removed file: ${oDeletedFile.fileName}`);
         }
-
     });
 });

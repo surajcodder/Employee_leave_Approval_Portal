@@ -158,19 +158,12 @@ sap.ui.define([
                     addFileFn.setParameter("mediaType", fileMeta.mediaType);
                     addFileFn.setParameter("size", fileMeta.fileSize);
                     addFileFn.setParameter("content", base64Content); // ✅ base64 string
-
-
                     await addFileFn.execute();
                 }
                 debugger
-
-
                 MessageToast.show("Leave request submitted with file and comment.");
                 this.onCancel();
-
                 MessageToast.show("Leave request submitted with file.");
-                debugger
-
                 debugger
                 this.onCancel();
             } catch (error) {
@@ -182,10 +175,7 @@ sap.ui.define([
         onCancel: function () {
             debugger
             this.getOwnerComponent().getRouter().navTo("View1");
-            
         },
-
-
 
 
         openPreview: async function (oEvent) {
@@ -247,7 +237,6 @@ sap.ui.define([
                 MessageToast.show("Failed to load preview.");
             }
         },
-
 
         postComment: async function (leaveID) {
             debugger;

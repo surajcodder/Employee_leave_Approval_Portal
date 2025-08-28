@@ -58,9 +58,6 @@ sap.ui.define([
         sap.m.MessageToast.show("Failed to load attachments.");
       });
 
-
-
-
       // ✅ Load comments
       const oCommentsBinding = oModel.bindList(`${sContextPath}/comments`);
       debugger
@@ -81,11 +78,6 @@ sap.ui.define([
         sap.m.MessageToast.show("Failed to load comments.");
       });
     },
-
-
-
-
-
 
 
     openPreview: function (oEvent) {

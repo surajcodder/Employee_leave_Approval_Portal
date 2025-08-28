@@ -44,9 +44,6 @@ sap.ui.define([
         }
       });
       // ----- comments Section
-
-
-
       // --- Load files (attachments) manually using bindList ---
       const sFilePath = `${sContextPath}/files`;
 
@@ -60,9 +57,6 @@ sap.ui.define([
         console.error("Failed to load attachments:", oError);
         sap.m.MessageToast.show("Failed to load attachments.");
       });
-
-
-
 
       // ✅ Load comments
       const oCommentsBinding = oModel.bindList(`${sContextPath}/comments`);
@@ -83,13 +77,7 @@ sap.ui.define([
         console.error("Failed to load comments:", oError);
         sap.m.MessageToast.show("Failed to load comments.");
       });
-
     },
-
-
-
-
-
 
 
     openPreview: function (oEvent) {
